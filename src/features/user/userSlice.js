@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import * as client from '../../api/client'
 import * as jose from 'jose'
 
-
+//TODO: load from local storage
 const initialState = {
     username: '',
     expiredAt: '',
@@ -14,7 +14,11 @@ const initialState = {
 const userSlice = createSlice({
     name: 'user',
     initialState,
-    reducers: {},
+    reducers: {
+      logout(state, action) {
+        state = initialState
+      }
+    },
     extraReducers(builder) {
       builder
         .addCase(login.pending, (state, action) => {
@@ -28,6 +32,7 @@ const userSlice = createSlice({
           console.log(claims)
           state.expiredAt = claims.exp
           state.username = claims.Username
+          //TODO: save to local storage
         })
         .addCase(login.rejected, (state, action) => {
           state.status = 'failed'
@@ -37,6 +42,8 @@ const userSlice = createSlice({
   })
 
   export default userSlice.reducer
+
+  export const { logout } = userSlice.actions
 
   export const login = createAsyncThunk(
     'user/login',
