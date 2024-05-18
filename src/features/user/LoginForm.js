@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { login } from './userSlice'
 import { useDispatch } from 'react-redux'
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -15,6 +15,7 @@ import Typography from '@mui/material/Typography';
 
 export const LoginForm = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [loginRequestStatus, setLoginRequestStatus] = useState('idle')
@@ -32,8 +33,7 @@ export const LoginForm = () => {
         await dispatch(login({ username, password })).unwrap()
         setUsername('')
         setPassword('')
-        //TODO: redirect not working
-        redirect(`/`);
+        navigate(`/`)
       } catch (err) {
         console.error('Failed to login: ', err)
       } finally {

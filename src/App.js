@@ -5,7 +5,7 @@ import { PostForm } from './features/posts/PostForm'
 
 function App() {
   return (
-  <React.Fragment><PostsList /><PostForm action="new" /></React.Fragment>
+  <React.Fragment></React.Fragment>
   )
 }
 

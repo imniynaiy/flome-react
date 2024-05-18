@@ -6,25 +6,20 @@ import {
 } from "react-router-dom";
 import { Provider } from 'react-redux';
 import { store } from './app/store';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
-import { LoginForm } from './features/user/LoginForm';
 import { Login } from './features/user/Login';
+import { Post } from './features/posts/Post';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App/>,
+    element: <Post/>,
   },
   {
     path: "/login",
-    element: <LoginForm/>,
-  },
-  {
-    path: "/test",
     element: <Login/>,
-  },
+  }
 ]);
 
 createRoot(document.getElementById("root")).render(

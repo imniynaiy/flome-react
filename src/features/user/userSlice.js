@@ -2,21 +2,40 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import * as client from '../../api/client'
 import * as jose from 'jose'
 
-//TODO: load from local storage
 const initialState = {
-    username: '',
-    expiredAt: '',
-    token: '',
-    status: 'idle',
-    error: null,
+  username: localStorage.getItem('username') || '',
+  expiredAt: parseInt(localStorage.getItem('expiredAt')) || 0,
+  token: localStorage.getItem('token') || '',
+  status: 'idle',
+  error: null,
 }
+
+const expired = (expiredAt) => {
+  return (new Date()).getTime >= expiredAt
+}
+
+export const validateUser = (username, expiredAt, token) => {
+  return Boolean(username && token && expiredAt && !expired(expiredAt))
+}
+
+if (!validateUser(initialState.username, initialState.expiredAt, initialState.token)) {
+  initialState.username = ''
+  initialState.token = ''
+  initialState.expiredAt = ''
+}
+
 
 const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
       logout(state, action) {
-        state = initialState
+        state.username = ''
+        state.token = ''
+        state.expiredAt = ''
+        localStorage.removeItem('username')
+        localStorage.removeItem('token')
+        localStorage.removeItem('expiredAt')
       }
     },
     extraReducers(builder) {
@@ -26,13 +45,13 @@ const userSlice = createSlice({
         })
         .addCase(login.fulfilled, (state, action) => {
           state.status = 'succeeded'
-          // Add any fetched posts to the array
           state.token = action.payload.Token
           const claims = jose.decodeJwt(state.token)
-          console.log(claims)
           state.expiredAt = claims.exp
           state.username = claims.Username
-          //TODO: save to local storage
+          localStorage.setItem('username', state.username)
+          localStorage.setItem('token', state.token)
+          localStorage.setItem('expiredAt', state.expiredAt)
         })
         .addCase(login.rejected, (state, action) => {
           state.status = 'failed'
