@@ -3,7 +3,16 @@ import { useSelector, useDispatch } from 'react-redux'
 import {Card, Typography, CardActions, Button, CircularProgress} from '@mui/material';
 import { fetchPosts } from './postsSlice'
 
-const PostExcerpt = ({ post }) => {
+const PostExcerpt = ({ post, isLogin }) => {
+  var content = null
+  if (isLogin) {
+    content = (
+      <CardActions>
+    <Button size="small">Edit</Button>
+    <Button size="small">Delete</Button>
+  </CardActions>
+    )
+  }
   return (
   <Card max-width="800">
   <Typography variant="body2">
@@ -15,14 +24,11 @@ const PostExcerpt = ({ post }) => {
   <Typography variant="body2">
   {post.Category}
   </Typography>
-  <CardActions>
-    <Button size="small">Edit</Button>
-    <Button size="small">Delete</Button>
-  </CardActions>
+  {content}
 </Card>)
 }
 
-export const PostsList = () => {
+export const PostsList = ({isLogin}) => {
   const dispatch = useDispatch()
   const posts = useSelector(state => state.posts)
 
@@ -41,7 +47,7 @@ export const PostsList = () => {
     content = <CircularProgress />
   } else if (postStatus === 'succeeded') {
     content = posts.posts.map(post => (
-      <PostExcerpt key={post.ID} post={post} />
+      <PostExcerpt key={post.ID} post={post} isLogin={isLogin}/>
     ))
   } else if (postStatus === 'failed') {
     content = <div>{error}</div>

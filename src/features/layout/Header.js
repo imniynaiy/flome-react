@@ -2,22 +2,16 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import Typography from '@mui/material/Typography';
-import { validateUser, logout } from '../user/userSlice';
+import { logout } from '../user/userSlice';
 import { useNavigate } from "react-router-dom";
 
 export function Header(props) {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const user = useSelector(state => state.user)
-    const [didLogin, setDidLogin] = React.useState(false)
-
-    React.useEffect(() => {
-        setDidLogin(validateUser(user.username, user.expiredAt, user.token))
-    }, [user]);
-
+    
     const LoginButton = <Button variant="outlined" size="small" onClick={() => navigate(`/login`)}>
         Login
     </Button>
@@ -42,7 +36,7 @@ export function Header(props) {
                 >
                     {title}
                 </Typography>
-                {didLogin ? LogoutButton : LoginButton}
+                {props.isLogin ? LogoutButton : LoginButton}
             </Toolbar>
         </React.Fragment>
     );
@@ -50,4 +44,5 @@ export function Header(props) {
 
 Header.propTypes = {
     title: PropTypes.string.isRequired,
+    isLogin: PropTypes.bool.isRequired,
 };
