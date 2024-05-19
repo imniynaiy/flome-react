@@ -5,6 +5,7 @@ import { PostsList } from './PostsList';
 import { useSelector } from 'react-redux'
 import { validateUser } from '../user/userSlice';
 import { Header } from '../layout/Header';
+import { CategoriesTab } from '../categories/CategoriesTab';
 
 export function Post() {
 
@@ -18,6 +19,7 @@ export function Post() {
   return (
     <Layout>
         <Header title="Flome" isLogin={didLogin} />
+        <CategoriesTab />
         <PostsList isLogin={didLogin} />
         {didLogin? <PostForm action="new" />: null}
     </Layout>
