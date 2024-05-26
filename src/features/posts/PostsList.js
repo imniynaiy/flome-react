@@ -3,13 +3,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import {Card, Typography, CardActions, Button, CircularProgress} from '@mui/material';
 import { fetchPosts } from './postsSlice'
 
-const PostExcerpt = ({ post, isLogin }) => {
+const PostExcerpt = ({ post, isLogin, handleEditClick, handleDeleteClick }) => {
   var content = null
   if (isLogin) {
     content = (
       <CardActions>
-    <Button size="small">Edit</Button>
-    <Button size="small">Delete</Button>
+    <Button size="small" onClick={handleEditClick}>Edit</Button>
+    <Button size="small" onClick={handleDeleteClick}>Delete</Button>
   </CardActions>
     )
   }

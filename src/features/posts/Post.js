@@ -33,6 +33,7 @@ export function Post() {
     <Layout>
         <Header title="Flome" isLogin={didLogin} />
         <CategoriesTab />
+      <PostsList isLogin={didLogin} onEditClick={handleEditClick} onDeleteClick={handleDeleteClick} />
       <Pagination page={page} count={Math.ceil(total / size)} shape="rounded" onChange={handlePageChange} />
     </Layout>
   );
