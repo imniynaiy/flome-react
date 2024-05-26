@@ -2,8 +2,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import * as client from '../../api/client'
 
 const initialState = {
-    categories: [],
-    currentCategory: '',
+    categories: ['all'],
+    current: 'all',
     status: 'idle',
     error: null,
 }
@@ -20,7 +20,9 @@ const categoriesSlice = createSlice({
       .addCase(fetchCategories.fulfilled, (state, action) => {
         state.status = 'succeeded'
         // Add any fetched posts to the array
-        state.categories = action.payload.Categories
+        let categories = action.payload.Categories
+        categories.unshift('all')
+        state.categories = categories
       })
       .addCase(fetchCategories.rejected, (state, action) => {
         state.status = 'failed'
