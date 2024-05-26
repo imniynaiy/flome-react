@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { CircularProgress, Tab, Tabs, Box } from '@mui/material';
-import { fetchPosts } from '../posts/postsSlice'
+import { fetchPosts, setCategory, setPage } from '../posts/postsSlice'
 import { fetchCategories } from './categoriesSlice';
 
 export const CategoriesTab = () => {
     const dispatch = useDispatch()
     const categories = useSelector(state => state.categories)
-    const currentCategory = useSelector(state => state.categories.currentCategory)
+    const current = useSelector(state => state.posts.category)
     const categoriesStatus = useSelector(state => state.categories.status)
     const error = useSelector(state => state.categories.error)
 
@@ -23,19 +23,18 @@ export const CategoriesTab = () => {
         content = <CircularProgress />
     } else if (categoriesStatus === 'succeeded') {
         content = (
-        <>
-        <Tab label="All" {...a11yProps(0)} />
-        {categories.categories.map((category,i) => (
-            <Tab label={category} {...a11yProps(i+1)} />
-        ))}
-        </>
+        categories.categories.map((category,i) => (
+            <Tab label={category} value={category} {...a11yProps(i)} />
+        ))
         )
     } else if (categoriesStatus === 'failed') {
         content = <div>{error}</div>
     }
 
     const handleChange = (event, newValue) => {
-        dispatch(fetchPosts(newValue))
+        dispatch(setCategory(newValue))
+        dispatch(setPage(1))
+        dispatch(fetchPosts())
     }
 
     function a11yProps(index) {
@@ -48,7 +47,7 @@ export const CategoriesTab = () => {
     return (
         <section className="categories-list">
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Tabs value={currentCategory} onChange={handleChange} aria-label="tabs for categories">
+                <Tabs value={current} onChange={handleChange} aria-label="tabs for categories">
                     {content}
                 </Tabs>
             </Box>
