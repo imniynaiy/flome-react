@@ -3,6 +3,7 @@ import * as client from '../../api/client'
 
 const initialState = {
     posts: [],
+    category: 'all',
     status: 'idle',
     error: null,
     total: 0,
@@ -13,7 +14,15 @@ const initialState = {
 const postsSlice = createSlice({
   name: 'posts',
   initialState,
-  reducers: {},
+  reducers: {
+    setCategory: (state, action) => {
+      state.page = 1
+      state.category = action.payload
+    },
+    setPage: (state, action) => {
+      state.page = action.payload
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchPosts.pending, (state, action) => {
@@ -32,10 +41,13 @@ const postsSlice = createSlice({
   }
 })
 
+export const { setCategory, setPage } = postsSlice.actions
+
 export default postsSlice.reducer
 
-export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
-    const response = await client.get('http://localhost:8081/api/v1/posts')
+export const fetchPosts = createAsyncThunk('posts/fetchPosts', async (args, {getState}) => {
+    const { category, page, size } = getState().posts
+    const response = await client.get(`http://localhost:8081/api/v1/posts?category=${category}&page=${page}&size=${size}`)
     return response.data
   })
 
