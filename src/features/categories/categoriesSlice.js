@@ -3,6 +3,7 @@ import * as client from '../../api/client'
 
 const initialState = {
     categories: ['all'],
+    selectables: [''],
     current: 'all',
     status: 'idle',
     error: null,
@@ -21,6 +22,7 @@ const categoriesSlice = createSlice({
         state.status = 'succeeded'
         // Add any fetched posts to the array
         let categories = action.payload.Categories
+        state.selectables = [...categories]
         categories.unshift('all')
         state.categories = categories
       })

@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import Layout from '../layout/Layout'
-import { PostForm } from '../editPost/PostForm';
+import PostFormDialog from '../editPost/PostFormDialog';
 import { PostsList } from './PostsList';
 import Pagination from '@mui/material/Pagination';
 import { useSelector, useDispatch } from 'react-redux'
@@ -16,8 +16,6 @@ export function Post() {
   const total = useSelector(state => state.posts.total)
   const size = useSelector(state => state.posts.size)
   const page = useSelector(state => state.posts.page)
-
-  const showModal = useSelector(state => state.editPost.show)
 
   const [didLogin, setDidLogin] = useState(false)
   const dispatch = useDispatch()
@@ -53,7 +51,7 @@ const deleteFactory = (post) => {
       <CategoriesTab />
       <PostsList isLogin={didLogin} editFactory={editFactory} deleteFactory={deleteFactory} />
       <Pagination page={page} count={Math.ceil(total / size)} shape="rounded" onChange={handlePageChange} />
-      {didLogin && showModal ? <PostForm /> : null}
+      {didLogin ? <PostFormDialog /> : null}
     </Layout>
   );
 }
