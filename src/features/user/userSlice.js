@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import * as client from '../../api/client'
 import * as jose from 'jose'
+import { router } from '../../router/router';
 
 const initialState = {
   username: localStorage.getItem('username') || '',
@@ -36,6 +37,7 @@ const userSlice = createSlice({
         localStorage.removeItem('username')
         localStorage.removeItem('token')
         localStorage.removeItem('expiredAt')
+        router.navigate('/')
       }
     },
     extraReducers(builder) {

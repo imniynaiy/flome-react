@@ -22,10 +22,10 @@ function Copyright(props) {
 export default function Layout({children}) {
     return (
     <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="sm">
         <CssBaseline />
         {children}
-        <Copyright sx={{ mt: 8, mb: 4 }} />
+        <Copyright sx={{ mt: 1, mb: 4 }} />
       </Container>
     </ThemeProvider>
     )

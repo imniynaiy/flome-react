@@ -29,7 +29,7 @@ export function Header(props) {
                 >
                     {title}
                 </Typography>
-                {props.isLogin ? <><NewButton /><LogoutButton /></> : <LoginButton />}
+                {props.isLogin ? <LogoutButton /> : <LoginButton />}
             </Toolbar>
         </React.Fragment>
     );
@@ -58,6 +58,8 @@ const NewButton = () => {
     return (
     <Button variant="outlined" size="small" onClick={() => {
         dispatch(setNew())
+    }} sx={{
+        marginRight: 0.5,
     }}>New
 </Button>)
 }
