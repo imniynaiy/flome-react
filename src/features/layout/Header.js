@@ -5,21 +5,14 @@ import Button from '@mui/material/Button';
 import { useDispatch } from 'react-redux'
 import Typography from '@mui/material/Typography';
 import { logout } from '../user/userSlice';
+import {setNew } from '../editPost/editPostSlice'
 import { useNavigate } from "react-router-dom";
 
 export function Header(props) {
 
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
     
-    const LoginButton = <Button variant="outlined" size="small" onClick={() => navigate(`/login`)}>
-        Login
-    </Button>
+    
 
-    const LogoutButton = <Button variant="outlined" size="small" onClick={() => {
-        dispatch(logout())
-    }}>Logout
-    </Button>
 
     const { title } = props;
 
@@ -36,10 +29,37 @@ export function Header(props) {
                 >
                     {title}
                 </Typography>
-                {props.isLogin ? LogoutButton : LoginButton}
+                {props.isLogin ? <><NewButton /><LogoutButton /></> : <LoginButton />}
             </Toolbar>
         </React.Fragment>
     );
+}
+
+
+const LoginButton = () => {
+    const navigate = useNavigate()
+    return (
+    <Button variant="outlined" size="small" onClick={() => navigate(`/login`)}>
+    Login
+</Button>)
+}
+
+const LogoutButton = () => {
+    const dispatch = useDispatch()
+    return (
+    <Button variant="outlined" size="small" onClick={() => {
+        dispatch(logout())
+    }}>Logout
+</Button>)
+}
+
+const NewButton = () => {
+    const dispatch = useDispatch()
+    return (
+    <Button variant="outlined" size="small" onClick={() => {
+        dispatch(setNew())
+    }}>New
+</Button>)
 }
 
 Header.propTypes = {

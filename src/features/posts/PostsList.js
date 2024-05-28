@@ -28,7 +28,7 @@ const PostExcerpt = ({ post, isLogin, handleEditClick, handleDeleteClick }) => {
 </Card>)
 }
 
-export const PostsList = ({isLogin}) => {
+export const PostsList = ({isLogin, editFactory, deleteFactory}) => {
   const dispatch = useDispatch()
   const posts = useSelector(state => state.posts)
 
@@ -46,9 +46,12 @@ export const PostsList = ({isLogin}) => {
   if (postStatus === 'loading') {
     content = <CircularProgress />
   } else if (postStatus === 'succeeded') {
-    content = posts.posts.map(post => (
-      <PostExcerpt key={post.ID} post={post} isLogin={isLogin}/>
-    ))
+    content = posts.posts.map(post => {
+      const handleEditClick = editFactory(post)
+      const handleDeleteClick = deleteFactory(post)
+      return (
+      <PostExcerpt key={post.ID} post={post} isLogin={isLogin} handleEditClick={handleEditClick} handleDeleteClick={handleDeleteClick}/>
+    )})
   } else if (postStatus === 'failed') {
     content = <div>{error}</div>
   }

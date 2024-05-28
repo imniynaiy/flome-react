@@ -54,9 +54,31 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async (args, {get
   export const addNewPost = createAsyncThunk(
     'posts/addNewPost',
     // The payload creator receives the partial `{content, category}` object
-    async initialPost => {
+    async (post) => {
       // We send the initial data to the fake API server
-      const response = await client.post('/fakeApi/posts', initialPost)
+      const response = await client.post('/fakeApi/posts', post)
+      // The response includes the complete post object, including unique ID
+      return response.data
+    }
+  )
+
+  export const editPost = createAsyncThunk(
+    'posts/editPost',
+    // The payload creator receives the partial `{content, category}` object
+    async post => {
+      // We send the initial data to the fake API server
+      const response = await client.post('/fakeApi/posts', post)
+      // The response includes the complete post object, including unique ID
+      return response.data
+    }
+  )
+
+  export const deletePost = createAsyncThunk(
+    'posts/deletePost',
+    // The payload creator receives the partial `{content, category}` object
+    async id => {
+      // We send the initial data to the fake API server
+      const response = await client.post('/fakeApi/posts', id)
       // The response includes the complete post object, including unique ID
       return response.data
     }
