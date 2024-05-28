@@ -5,7 +5,6 @@ import Button from '@mui/material/Button';
 import { useDispatch } from 'react-redux'
 import Typography from '@mui/material/Typography';
 import { logout } from '../user/userSlice';
-import {setNew } from '../editPost/editPostSlice'
 import { useNavigate } from "react-router-dom";
 
 export function Header(props) {
@@ -50,17 +49,6 @@ const LogoutButton = () => {
     <Button variant="outlined" size="small" onClick={() => {
         dispatch(logout())
     }}>Logout
-</Button>)
-}
-
-const NewButton = () => {
-    const dispatch = useDispatch()
-    return (
-    <Button variant="outlined" size="small" onClick={() => {
-        dispatch(setNew())
-    }} sx={{
-        marginRight: 0.5,
-    }}>New
 </Button>)
 }
 
