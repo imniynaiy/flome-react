@@ -8,11 +8,6 @@ import { logout } from '../user/userSlice';
 import { useNavigate } from "react-router-dom";
 
 export function Header(props) {
-
-    
-    
-
-
     const { title } = props;
 
     return (

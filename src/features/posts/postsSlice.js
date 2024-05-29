@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import * as client from '../../api/client'
+import { fetchCategories } from '../categories/categoriesSlice'
 
 const initialState = {
     posts: [],
@@ -51,35 +52,70 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async (args, {get
     return response.data
   })
 
-  export const addNewPost = createAsyncThunk(
-    'posts/addNewPost',
+  const addPost = createAsyncThunk(
+    'posts/addPost',
     // The payload creator receives the partial `{content, category}` object
-    async (post) => {
+    async (post, {getState}) => {
+      const config = {
+        headers: {
+          'Authorization': 'Bearer ' + getState().user.token
+        },
+        body: post,
+      }
       // We send the initial data to the fake API server
-      const response = await client.post('/fakeApi/posts', post)
+      const response = await client.post('http://localhost:8081/api/v1/posts', config)
       // The response includes the complete post object, including unique ID
       return response.data
     }
   )
 
-  export const editPost = createAsyncThunk(
+  const editPost = createAsyncThunk(
     'posts/editPost',
     // The payload creator receives the partial `{content, category}` object
-    async post => {
+    async (post, {getState}) => {
+      const config = {
+        headers: {
+          'Authorization': 'Bearer ' + getState().user.token
+        },
+        body: post,
+      }
       // We send the initial data to the fake API server
-      const response = await client.post('/fakeApi/posts', post)
+      const response = await client.put('http://localhost:8081/api/v1/posts', config)
       // The response includes the complete post object, including unique ID
       return response.data
     }
   )
 
-  export const deletePost = createAsyncThunk(
+  const deletePost = createAsyncThunk(
     'posts/deletePost',
     // The payload creator receives the partial `{content, category}` object
-    async id => {
+    async (id, {getState, dispatch}) => {
+      const config = {
+        headers: {
+          'Authorization': 'Bearer ' + getState().user.token
+        }
+      }
       // We send the initial data to the fake API server
-      const response = await client.post('/fakeApi/posts', id)
+      const response = await client.del('http://localhost:8081/api/v1/posts/' + id, config)
       // The response includes the complete post object, including unique ID
       return response.data
     }
   )
+
+  export const deletePostAndGetPosts = (id) => async (dispatch) => {
+    await dispatch(deletePost(id))
+    await dispatch(fetchPosts())
+    await dispatch(fetchCategories())
+  }
+
+  export const editPostAndGetPosts = (post) => async (dispatch) => {
+    await dispatch(editPost(post))
+    await dispatch(fetchPosts())
+    await dispatch(fetchCategories())
+  }
+
+  export const addPostAndGetPosts = (post) => async (dispatch) => {
+    await dispatch(addPost(post))
+    await dispatch(fetchPosts())
+    await dispatch(fetchCategories())
+  }

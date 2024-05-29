@@ -24,7 +24,7 @@ const categoriesSlice = createSlice({
         let categories = action.payload.Categories
         state.selectables = [...categories]
         categories.unshift('all')
-        state.categories = categories
+        state.categories = [...categories]
       })
       .addCase(fetchCategories.rejected, (state, action) => {
         state.status = 'failed'

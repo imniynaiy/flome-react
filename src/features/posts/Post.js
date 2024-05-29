@@ -9,7 +9,7 @@ import { validateUser } from '../user/userSlice';
 import { Header } from '../layout/Header';
 import { CategoriesTab } from '../categories/CategoriesTab';
 
-import { fetchPosts, setPage, deletePost } from '../posts/postsSlice'
+import { fetchPosts, setPage, deletePostAndGetPosts } from '../posts/postsSlice'
 import { setEdit, setNew } from '../editPost/editPostSlice';
 export function Post() {
 
@@ -42,7 +42,7 @@ export function Post() {
 
   const deleteFactory = (post) => {
     return () => {
-      dispatch(deletePost(post.id))
+      dispatch(deletePostAndGetPosts(post.ID))
     }
   }
 

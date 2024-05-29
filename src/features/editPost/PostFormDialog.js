@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { addNewPost, editPost } from '../posts/postsSlice'
+import {  addPostAndGetPosts, editPostAndGetPosts } from '../posts/postsSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCategory, setContent, dismiss } from './editPostSlice'
 import Button from '@mui/material/Button';
@@ -34,24 +34,24 @@ export default function PostFormDialog() {
       if (canAdd) {
         try {
           setAddRequestStatus('pending')
-          await dispatch(addNewPost({ category, content })).unwrap()
-          dispatch(dismiss())
+          await dispatch(addPostAndGetPosts({ category, content })).unwrap()
         } catch (err) {
           console.error('Failed to save the post: ', err)
         } finally {
           setAddRequestStatus('idle')
+          dispatch(dismiss())
         }
       }
     } else if (status === 'edit') {
       if (canEdit) {
         try {
           setAddRequestStatus('pending')
-          await dispatch(editPost({ id, category, content })).unwrap()
-          dispatch(dismiss())
+          await dispatch(editPostAndGetPosts({ id, category, content })).unwrap()
         } catch (err) {
           console.error('Failed to save the post: ', err)
         } finally {
           setEditRequestStatus('idle')
+          dispatch(dismiss())
         }
       }
     }
