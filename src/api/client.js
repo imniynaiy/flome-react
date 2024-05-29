@@ -1,4 +1,4 @@
-async function client(method, endpoint,  body, ...customConfig) {
+async function client(method, endpoint,  {body, ...customConfig} = {}) {
     const headers = { 'Content-Type': 'application/json' }
   
     const config = {

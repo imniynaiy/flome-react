@@ -71,7 +71,7 @@ const userSlice = createSlice({
     // The payload creator receives the partial `{username, password}` object
     async user => {
       // We send the initial data to the fake API server
-      const response = await client.post('http://localhost:8081/api/v1/login', user)
+      const response = await client.post('http://localhost:8081/api/v1/login', {body: user})
       // The response includes the complete post object, including unique ID
       return response.data
     }
