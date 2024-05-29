@@ -84,20 +84,8 @@ export default function PostFormDialog() {
         <CloseIcon />
       </IconButton>
       <DialogContent>
-        <Autocomplete
-          autoFocus
-          disablePortal
-          id="category"
-          margin="dense"
-          options={categories}
-          sx={{ width: 300 }}
-          value={category}
-          fullWidth
-          required
-          freeSolo
-          renderInput={(params) => <TextField {...params} label="category" onChange={handleCategoryChanged} />}
-        />
         <TextField
+          autoFocus
           required
           margin="dense"
           id="content"
@@ -108,7 +96,21 @@ export default function PostFormDialog() {
           multiline
           value={content}
           onChange={handleContentChanged}
+          sx={{pb: 2}}
         />
+        <Autocomplete
+          disablePortal
+          id="category"
+          margin="dense"
+          options={categories}
+          sx={{ width: 300, pb: 4 }}
+          value={category}
+          fullWidth
+          required
+          freeSolo
+          renderInput={(params) => <TextField {...params} label="category" onChange={handleCategoryChanged} />}
+        />
+
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
