@@ -36,6 +36,6 @@ const categoriesSlice = createSlice({
 export default categoriesSlice.reducer
 
   export const fetchCategories = createAsyncThunk('posts/fetchCategories', async () => {
-    const response = await client.get('http://localhost:8081/api/v1/categories')
+    const response = await client.get('/api/v1/categories')
     return response.data
   })

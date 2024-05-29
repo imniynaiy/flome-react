@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import {  addPostAndGetPosts, editPostAndGetPosts } from '../posts/postsSlice'
+import { addPostAndGetPosts, editPostAndGetPosts } from '../posts/postsSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCategory, setContent, dismiss } from './editPostSlice'
 import Button from '@mui/material/Button';
@@ -31,10 +31,11 @@ export default function PostFormDialog() {
   const canEdit = [id, category, content].every(Boolean) && editRequestStatus === 'idle'
   const handleSubmit = async () => {
     if (status === 'new') {
+      // console.log({category, content, addRequestStatus})
       if (canAdd) {
         try {
           setAddRequestStatus('pending')
-          await dispatch(addPostAndGetPosts({ category, content })).unwrap()
+          await dispatch(addPostAndGetPosts({ category, content }))
         } catch (err) {
           console.error('Failed to save the post: ', err)
         } finally {
@@ -46,7 +47,7 @@ export default function PostFormDialog() {
       if (canEdit) {
         try {
           setAddRequestStatus('pending')
-          await dispatch(editPostAndGetPosts({ id, category, content })).unwrap()
+          await dispatch(editPostAndGetPosts({ id, category, content }))
         } catch (err) {
           console.error('Failed to save the post: ', err)
         } finally {
@@ -71,19 +72,20 @@ export default function PostFormDialog() {
     >
       <DialogTitle>{status === "edit" ? "Edit Post" : "New Post"}</DialogTitle>
       <IconButton
-          aria-label="close"
-          onClick={handleClose}
-          sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-          </IconButton>
+        aria-label="close"
+        onClick={handleClose}
+        sx={{
+          position: 'absolute',
+          right: 8,
+          top: 8,
+          color: (theme) => theme.palette.grey[500],
+        }}
+      >
+        <CloseIcon />
+      </IconButton>
       <DialogContent>
         <Autocomplete
+          autoFocus
           disablePortal
           id="category"
           margin="dense"
@@ -96,7 +98,6 @@ export default function PostFormDialog() {
           renderInput={(params) => <TextField {...params} label="category" onChange={handleCategoryChanged} />}
         />
         <TextField
-          autoFocus
           required
           margin="dense"
           id="content"
