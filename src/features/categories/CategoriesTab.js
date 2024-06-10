@@ -5,52 +5,54 @@ import { fetchPosts, setCategory, setPage } from '../posts/postsSlice'
 import { fetchCategories } from './categoriesSlice';
 
 export const CategoriesTab = () => {
-    const dispatch = useDispatch()
-    const categories = useSelector(state => state.categories)
-    const current = useSelector(state => state.posts.category)
-    const categoriesStatus = useSelector(state => state.categories.status)
-    const error = useSelector(state => state.categories.error)
+  const dispatch = useDispatch()
+  const categories = useSelector(state => state.categories)
+  const current = useSelector(state => state.posts.category)
+  const categoriesStatus = useSelector(state => state.categories.status)
+  const error = useSelector(state => state.categories.error)
 
-    useEffect(() => {
-        if (categoriesStatus === 'idle') {
-            dispatch(fetchCategories())
-        }
-    }, [categoriesStatus, dispatch])
 
-    let content
+  const handleChange = (event, newValue) => {
+    dispatch(setCategory(newValue))
+    dispatch(setPage(1))
+    dispatch(fetchPosts())
+  }
 
-    if (categoriesStatus === 'loading') {
-        content = <CircularProgress />
-    } else if (categoriesStatus === 'succeeded') {
-        content = (
-        categories.categories.map((category,i) => (
-            <Tab label={category} value={category} {...a11yProps(i)} />
+  useEffect(() => {
+    if (categoriesStatus === 'idle') {
+      dispatch(fetchCategories())
+    }
+  }, [categoriesStatus, dispatch])
+
+  let content
+
+  if (categoriesStatus === 'loading') {
+    content = <CircularProgress />
+  } else if (categoriesStatus === 'succeeded') {
+    content = (<Tabs value={current} onChange={handleChange} aria-label="tabs for categories">
+
+      {
+        categories.categories.map((category, i) => (
+          <Tab label={category} value={category} key={category} {...a11yProps(i)} />
         ))
-        )
-    } else if (categoriesStatus === 'failed') {
-        content = <div>{error}</div>
-    }
+      }</Tabs>)
+  } else if (categoriesStatus === 'failed') {
+    content = <div>{error}</div>
+  }
 
-    const handleChange = (event, newValue) => {
-        dispatch(setCategory(newValue))
-        dispatch(setPage(1))
-        dispatch(fetchPosts())
-    }
 
-    function a11yProps(index) {
-        return {
-          id: `simple-tab-${index}`,
-          'aria-controls': `simple-tabpanel-${index}`,
-        };
-      }
+  function a11yProps(index) {
+    return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`,
+    };
+  }
 
-    return (
-        <section className="categories-list">
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Tabs value={current} onChange={handleChange} aria-label="tabs for categories">
-                    {content}
-                </Tabs>
-            </Box>
-        </section>
-    )
+  return (
+    <section className="categories-list">
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        {content}
+      </Box>
+    </section>
+  )
 }
