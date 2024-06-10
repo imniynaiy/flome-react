@@ -14,7 +14,7 @@ const initialState = {
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT || 'http://production';
 
 const expired = (expiredAt) => {
-  return (new Date()).getTime >= expiredAt
+  return (new Date()).getTime()/1000 >= expiredAt
 }
 
 export const validateUser = (username, expiredAt, token) => {
