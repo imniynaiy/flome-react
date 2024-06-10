@@ -2,6 +2,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import * as client from '../../api/client'
 import { fetchCategories } from '../categories/categoriesSlice'
 
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT || 'http://production';
+
 const initialState = {
   posts: [],
   category: 'all',
@@ -48,7 +50,7 @@ export default postsSlice.reducer
 
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async (args, { getState }) => {
   const { category, page, size } = getState().posts
-  const response = await client.get(`/api/v1/posts?category=${category}&page=${page}&size=${size}`)
+  const response = await client.get(API_ENDPOINT + `/api/v1/posts?category=${category}&page=${page}&size=${size}`)
   return response.data
 })
 
@@ -63,7 +65,7 @@ const addPost = createAsyncThunk(
       body: post,
     }
     // We send the initial data to the fake API server
-    const response = await client.post('/api/v1/posts', config)
+    const response = await client.post(API_ENDPOINT + '/api/v1/posts', config)
     // The response includes the complete post object, including unique ID
     return response.data
   }
@@ -80,7 +82,7 @@ const editPost = createAsyncThunk(
       body: post,
     }
     // We send the initial data to the fake API server
-    const response = await client.put('/api/v1/posts', config)
+    const response = await client.put(API_ENDPOINT+ `/api/v1/posts`, config)
     // The response includes the complete post object, including unique ID
     return response.data
   }
@@ -96,7 +98,7 @@ const deletePost = createAsyncThunk(
       }
     }
     // We send the initial data to the fake API server
-    const response = await client.del('/api/v1/posts/' + id, config)
+    const response = await client.del(API_ENDPOINT + `/api/v1/posts/` + id, config)
     // The response includes the complete post object, including unique ID
     return response.data
   }

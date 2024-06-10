@@ -9,6 +9,8 @@ const initialState = {
     error: null,
 }
 
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT || 'http://production';
+
 const categoriesSlice = createSlice({
   name: 'categories',
   initialState,
@@ -36,6 +38,6 @@ const categoriesSlice = createSlice({
 export default categoriesSlice.reducer
 
   export const fetchCategories = createAsyncThunk('posts/fetchCategories', async () => {
-    const response = await client.get('/api/v1/categories')
+    const response = await client.get(API_ENDPOINT + '/api/v1/categories')
     return response.data
   })

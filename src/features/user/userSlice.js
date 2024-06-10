@@ -11,6 +11,8 @@ const initialState = {
   error: null,
 }
 
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT || 'http://production';
+
 const expired = (expiredAt) => {
   return (new Date()).getTime >= expiredAt
 }
@@ -71,7 +73,7 @@ const userSlice = createSlice({
     // The payload creator receives the partial `{username, password}` object
     async user => {
       // We send the initial data to the fake API server
-      const response = await client.post('/api/v1/login', {body: user})
+      const response = await client.post(API_ENDPOINT + '/api/v1/login', {body: user})
       // The response includes the complete post object, including unique ID
       return response.data
     }
