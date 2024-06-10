@@ -26,12 +26,11 @@ export default function PostFormDialog() {
 
   const handleCategoryChanged = e => dispatch(setCategory(e.target.value))
   const handleContentChanged = e => dispatch(setContent(e.target.value))
-
-  const canAdd = [category, content].every(Boolean) && addRequestStatus === 'idle'
-  const canEdit = [id, category, content].every(Boolean) && editRequestStatus === 'idle'
   const handleSubmit = async () => {
     if (status === 'new') {
       // console.log({category, content, addRequestStatus})
+      const canAdd = [category, content].every(Boolean) && addRequestStatus === 'idle'
+  
       if (canAdd) {
         try {
           setAddRequestStatus('pending')
@@ -44,6 +43,7 @@ export default function PostFormDialog() {
         }
       }
     } else if (status === 'edit') {
+      const canEdit = [id, category, content].every(Boolean) && editRequestStatus === 'idle'
       if (canEdit) {
         try {
           setAddRequestStatus('pending')
