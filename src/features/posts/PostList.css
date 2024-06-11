@@ -1,3 +1,11 @@
-.MuiCardContent-root {
-    padding-bottom: 0;
+.myCard .MuiCardActions-root {
+    display: none;
+}
+
+.myCard:hover .MuiCardActions-root {
+    display: flex!important; 
+}
+
+.myCard:hover .MuiCardContent-root {
+    padding-bottom: 0; 
 }

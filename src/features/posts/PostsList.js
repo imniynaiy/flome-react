@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Card, Typography, CardActions, Button, CircularProgress, CardContent } from '@mui/material';
+import { Card, Typography, CardActions, Button, CircularProgress, CardContent, Chip, Box } from '@mui/material';
 import { fetchPosts } from './postsSlice'
 import dayjs from 'dayjs'
 import './PostList.css'
@@ -21,17 +21,15 @@ const PostExcerpt = ({ post, isLogin, handleEditClick, handleDeleteClick }) => {
   return (
     <Card sx={{
       margin: 0.5,
-    }}>
+    }} className='myCard'>
       <CardContent>
         <Typography variant="body2">
           {post.Content}
         </Typography>
-        <Typography variant="body2">
-          {post.Category}
-        </Typography>
-        <Typography variant="body2">
-          {formatTime(post.UpdatedAt)}
-        </Typography>
+        <Box sx={{ display: 'flex' }} mt={1}>
+          <Chip label={post.Category} size='small' sx={{backgroundColor: '#e5f3ff'}}/>
+          <Chip label={'@ ' + formatTime(post.UpdatedAt)} size='small' sx={{ backgroundColor: 'transparent' }} />
+        </Box>
         {actions}
       </CardContent>
     </Card>)
