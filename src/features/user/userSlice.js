@@ -11,7 +11,7 @@ const initialState = {
   error: null,
 }
 
-const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT || 'http://production';
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT === undefined ? 'http://production' : process.env.REACT_APP_API_ENDPOINT;
 
 const expired = (expiredAt) => {
   return (new Date()).getTime()/1000 >= expiredAt

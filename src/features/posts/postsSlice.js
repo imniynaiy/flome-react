@@ -2,7 +2,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import * as client from '../../api/client'
 import { fetchCategories } from '../categories/categoriesSlice'
 
-const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT || 'http://production';
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT === undefined ? 'http://production' : process.env.REACT_APP_API_ENDPOINT;
+
 
 const initialState = {
   posts: [],
