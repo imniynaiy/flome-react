@@ -65,7 +65,8 @@ export function Post() {
       <Fab color="primary" aria-label="add" sx={{
         position: 'fixed',
         bottom: 32,
-        transform: 'translate(464px, 0)',
+        right: 0,
+        transform: 'translate(-50%, 0)',
       }} onClick={handleAddClick}>
         <AddIcon />
       </Fab>
