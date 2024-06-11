@@ -21,7 +21,7 @@ const PostExcerpt = ({ post, isLogin, handleEditClick, handleDeleteClick }) => {
   return (
     <Card sx={{
       margin: 0.5,
-    }} className='myCard'>
+    }} className={isLogin?'myCard':''}>
       <CardContent>
         <Typography variant="body2">
           {post.Content}
